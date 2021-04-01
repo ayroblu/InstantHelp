@@ -14,6 +14,8 @@
 		30795AB52616344A0053B4EA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30795AB32616344A0053B4EA /* Main.storyboard */; };
 		30795AC12616344B0053B4EA /* InstantHelpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30795AC02616344B0053B4EA /* InstantHelpTests.swift */; };
 		30795ACC2616344B0053B4EA /* InstantHelpUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30795ACB2616344B0053B4EA /* InstantHelpUITests.swift */; };
+		30795ADE261635020053B4EA /* ContainerPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30795ADD261635020053B4EA /* ContainerPanel.swift */; };
+		30795AE6261635D90053B4EA /* MyContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30795AE5261635D90053B4EA /* MyContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +50,8 @@
 		30795AC72616344B0053B4EA /* InstantHelpUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InstantHelpUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		30795ACB2616344B0053B4EA /* InstantHelpUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstantHelpUITests.swift; sourceTree = "<group>"; };
 		30795ACD2616344B0053B4EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		30795ADD261635020053B4EA /* ContainerPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerPanel.swift; sourceTree = "<group>"; };
+		30795AE5261635D90053B4EA /* MyContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,8 +102,8 @@
 		30795AA9261634440053B4EA /* InstantHelp */ = {
 			isa = PBXGroup;
 			children = (
+				30795ADC2616345B0053B4EA /* ui */,
 				30795AAA261634440053B4EA /* AppDelegate.swift */,
-				30795AAC261634440053B4EA /* ContentView.swift */,
 				30795AAE2616344A0053B4EA /* Assets.xcassets */,
 				30795AB32616344A0053B4EA /* Main.storyboard */,
 				30795AB62616344A0053B4EA /* Info.plist */,
@@ -133,6 +137,16 @@
 				30795ACD2616344B0053B4EA /* Info.plist */,
 			);
 			path = InstantHelpUITests;
+			sourceTree = "<group>";
+		};
+		30795ADC2616345B0053B4EA /* ui */ = {
+			isa = PBXGroup;
+			children = (
+				30795AAC261634440053B4EA /* ContentView.swift */,
+				30795ADD261635020053B4EA /* ContainerPanel.swift */,
+				30795AE5261635D90053B4EA /* MyContentView.swift */,
+			);
+			path = ui;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,6 +280,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				30795AAD261634440053B4EA /* ContentView.swift in Sources */,
+				30795ADE261635020053B4EA /* ContainerPanel.swift in Sources */,
+				30795AE6261635D90053B4EA /* MyContentView.swift in Sources */,
 				30795AAB261634440053B4EA /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
