@@ -16,7 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 //        self.containerPanel = ContainerPanel()
         // Create the status item
-        self.statusBarItem = NSStatusBar.system.statusItem(withLength: CGFloat(NSStatusItem.variableLength))
+//        self.statusBarItem = NSStatusBar.system.statusItem(withLength: CGFloat(NSStatusItem.variableLength))
         
         askPermission()
         
@@ -31,6 +31,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 }
 
+// Consider adding: https://stackoverflow.com/questions/42806005/how-can-my-cocoa-application-be-notified-of-nsscreen-resolution-changes/42807363
 func getContentRect() -> NSRect {
     let screenRect: CGRect = NSScreen.main!.frame
     return NSRect(
@@ -69,22 +70,25 @@ func monitorKeyStrokes(with panel: NSPanel) {
     NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged) {
         switch $0.modifierFlags.intersection(.deviceIndependentFlagsMask) {
             case [.command]:
-                openPanel(panel)
+                openPanelWithDelay(panel)
             default:
-                closePanel(panel)
+                cancelOrClosePanel(panel)
         }
     }
 }
-fileprivate func openPanel(_ panel: NSPanel) {
+
+fileprivate func openPanelWithDelay(_ panel: NSPanel) {
     let myTask = DispatchWorkItem {
+        panel.setFrame(getContentRect(), display: true)
         panel.makeKeyAndOrderFront(nil)
         isOpen = true
         task = nil
     }
-    DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: myTask)
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: myTask)
     task = myTask
 }
-fileprivate func closePanel(_ panel: NSPanel) {
+
+fileprivate func cancelOrClosePanel(_ panel: NSPanel) {
     if let myTask = task {
         myTask.cancel()
         task = nil
