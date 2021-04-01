@@ -10,50 +10,18 @@ import SwiftUI
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
-
-    var window: NSWindow!
-    var containerPanel: ContainerPanel!
+//    var containerPanel: ContainerPanel!
     var statusBarItem: NSStatusItem!
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Create the SwiftUI view that provides the window contents.
-        let contentView = ContentView()
-        self.containerPanel = ContainerPanel()
-
-        // Create the window and set the content view.
-//        window = NSWindow(
-//            contentRect: NSRect(x: 0, y: 0, width: 480, height: 300),
-//            styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
-//            backing: .buffered, defer: false)
-//        window.isReleasedWhenClosed = false
-//        window.center()
-//        window.setFrameAutosaveName("Main Window")
-//        window.contentView = NSHostingView(rootView: contentView)
-//        window.makeKeyAndOrderFront(nil)
-//        containerPanel.makeKeyAndOrderFront(nil)
-        
-        let screenRect: CGRect = NSScreen.main!.frame
-        let panel = NSPanel(
-            contentRect: NSRect(
-                x: screenRect.width/4,
-                y: screenRect.height/4,
-                width:  screenRect.width/2,
-                height: screenRect.height/2
-            ),
-            styleMask: .nonactivatingPanel,
-            backing: .buffered,
-            defer: false
-        )
-        panel.collectionBehavior = .canJoinAllSpaces
-//        panel.alphaValue = 0.5
-        panel.backgroundColor = NSColor.black
-        panel.level = .popUpMenu
-        panel.contentView = NSHostingView(rootView: contentView)
-        panel.makeKeyAndOrderFront(nil)
-        panel.isFloatingPanel = true
-        
+//        self.containerPanel = ContainerPanel()
         // Create the status item
         self.statusBarItem = NSStatusBar.system.statusItem(withLength: CGFloat(NSStatusItem.variableLength))
+        
+        askPermission()
+        
+        let panel = getMainPanel()
+        monitorKeyStrokes(with: panel)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -62,4 +30,71 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 
 }
+
+func getContentRect() -> NSRect {
+    let screenRect: CGRect = NSScreen.main!.frame
+    return NSRect(
+        x: screenRect.width/4,
+        y: screenRect.height/4,
+        width:  screenRect.width/2,
+        height: screenRect.height/2
+    )
+}
+func getMainPanel() -> NSPanel {
+    let panel = NSPanel(
+        contentRect: getContentRect(),
+        styleMask: .nonactivatingPanel,
+        backing: .buffered,
+        defer: false
+    )
+    panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
+    panel.backgroundColor = NSColor.init(red: 0, green: 0, blue: 0, alpha: 0.5)
+    panel.level = .popUpMenu
+    panel.contentView = NSHostingView(rootView: ContentView())
+    panel.isFloatingPanel = true
+    panel.orderOut(nil)
+    return panel
+}
+
+func askPermission() {
+    let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String : true]
+    let accessEnabled = AXIsProcessTrustedWithOptions(options)
+
+    if !accessEnabled {
+        print("Access Not Enabled")
+    }
+}
+
+func monitorKeyStrokes(with panel: NSPanel) {
+    NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged) {
+        switch $0.modifierFlags.intersection(.deviceIndependentFlagsMask) {
+            case [.command]:
+                openPanel(panel)
+            default:
+                closePanel(panel)
+        }
+    }
+}
+fileprivate func openPanel(_ panel: NSPanel) {
+    let myTask = DispatchWorkItem {
+        panel.makeKeyAndOrderFront(nil)
+        isOpen = true
+        task = nil
+    }
+    DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: myTask)
+    task = myTask
+}
+fileprivate func closePanel(_ panel: NSPanel) {
+    if let myTask = task {
+        myTask.cancel()
+        task = nil
+    }
+    if isOpen == true {
+        panel.orderOut(nil)
+        isOpen = false
+    }
+}
+
+fileprivate var isOpen = false
+fileprivate var task: DispatchWorkItem?
 
