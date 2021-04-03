@@ -7,6 +7,7 @@
 
 import Cocoa
 import SwiftUI
+import Carbon.HIToolbox.Events
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -19,7 +20,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 //        self.statusBarItem = NSStatusBar.system.statusItem(withLength: CGFloat(NSStatusItem.variableLength))
         
         askPermission()
-        
+        Menubar.initialize()
+        initPrefWindow()
         let panel = getMainPanel()
         monitorKeyStrokes(with: panel)
     }
@@ -27,8 +29,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
-
-
+    
+    @objc func showPrefWindow() {
+        prefWindow.makeKeyAndOrderFront(nil)
+    }
 }
 
 // Consider adding: https://stackoverflow.com/questions/42806005/how-can-my-cocoa-application-be-notified-of-nsscreen-resolution-changes/42807363
@@ -66,26 +70,31 @@ func askPermission() {
     }
 }
 
+// HotKey is a copy of https://github.com/soffes/HotKey
+// Need to make sure that HotKey is kept in scope, otherwise it will be deallocated
+let hotKey = HotKey(key: .f19, modifiers: [.option])
 func monitorKeyStrokes(with panel: NSPanel) {
-    NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged) {
-        switch $0.modifierFlags.intersection(.deviceIndependentFlagsMask) {
-            case [.command]:
-                openPanelWithDelay(panel)
-            default:
-                cancelOrClosePanel(panel)
-        }
+    hotKey.keyDownHandler = {
+        openPanel(panel)
+    }
+    hotKey.keyUpHandler = {
+        cancelOrClosePanel(panel)
     }
 }
 
 fileprivate func openPanelWithDelay(_ panel: NSPanel) {
-    let myTask = DispatchWorkItem {
-        panel.setFrame(getContentRect(), display: true)
-        panel.makeKeyAndOrderFront(nil)
-        isOpen = true
-        task = nil
+    let myTask = DispatchWorkItem{
+        openPanel(panel)
     }
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: myTask)
     task = myTask
+}
+
+fileprivate func openPanel(_ panel: NSPanel) {
+    panel.setFrame(getContentRect(), display: true)
+    panel.makeKeyAndOrderFront(nil)
+    isOpen = true
+    task = nil
 }
 
 fileprivate func cancelOrClosePanel(_ panel: NSPanel) {
@@ -102,3 +111,19 @@ fileprivate func cancelOrClosePanel(_ panel: NSPanel) {
 fileprivate var isOpen = false
 fileprivate var task: DispatchWorkItem?
 
+var prefWindow: NSWindow!
+
+func initPrefWindow() {
+    // Create the SwiftUI view that provides the window contents.
+    let contentView = ContentView()
+
+    // Create the window and set the content view.
+    prefWindow = NSWindow(
+        contentRect: NSRect(x: 0, y: 0, width: 480, height: 300),
+        styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
+        backing: .buffered, defer: false)
+    prefWindow.center()
+    prefWindow.setFrameAutosaveName("Instant Help")
+    prefWindow.contentView = NSHostingView(rootView: contentView)
+    prefWindow.makeKeyAndOrderFront(nil)
+}
