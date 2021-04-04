@@ -11,19 +11,12 @@ import Carbon.HIToolbox.Events
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
-//    var containerPanel: ContainerPanel!
-    var statusBarItem: NSStatusItem!
-
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-//        self.containerPanel = ContainerPanel()
-        // Create the status item
-//        self.statusBarItem = NSStatusBar.system.statusItem(withLength: CGFloat(NSStatusItem.variableLength))
-        
         askPermission()
         Menubar.initialize()
-        initPrefWindow()
-        let panel = getMainPanel()
-        monitorKeyStrokes(with: panel)
+        initMainPanel()
+        monitorKeyStrokes()
+        PreferencesWindow.setup()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -32,8 +25,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @objc func showPrefWindow() {
         prefWindow.makeKeyAndOrderFront(nil)
+        prefWindow.orderFrontRegardless()
     }
 }
+
+var panel: NSPanel!
 
 // Consider adding: https://stackoverflow.com/questions/42806005/how-can-my-cocoa-application-be-notified-of-nsscreen-resolution-changes/42807363
 func getContentRect() -> NSRect {
@@ -45,8 +41,8 @@ func getContentRect() -> NSRect {
         height: screenRect.height/2
     )
 }
-func getMainPanel() -> NSPanel {
-    let panel = NSPanel(
+func initMainPanel() {
+    panel = NSPanel(
         contentRect: getContentRect(),
         styleMask: .nonactivatingPanel,
         backing: .buffered,
@@ -58,7 +54,6 @@ func getMainPanel() -> NSPanel {
     panel.contentView = NSHostingView(rootView: ContentView())
     panel.isFloatingPanel = true
     panel.orderOut(nil)
-    return panel
 }
 
 func askPermission() {
@@ -73,31 +68,31 @@ func askPermission() {
 // HotKey is a copy of https://github.com/soffes/HotKey
 // Need to make sure that HotKey is kept in scope, otherwise it will be deallocated
 let hotKey = HotKey(key: .f19, modifiers: [.option])
-func monitorKeyStrokes(with panel: NSPanel) {
+func monitorKeyStrokes() {
     hotKey.keyDownHandler = {
-        openPanel(panel)
+        openPanel()
     }
     hotKey.keyUpHandler = {
-        cancelOrClosePanel(panel)
+        cancelOrClosePanel()
     }
 }
 
-fileprivate func openPanelWithDelay(_ panel: NSPanel) {
+fileprivate func openPanelWithDelay() {
     let myTask = DispatchWorkItem{
-        openPanel(panel)
+        openPanel()
     }
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: myTask)
     task = myTask
 }
 
-fileprivate func openPanel(_ panel: NSPanel) {
+fileprivate func openPanel() {
     panel.setFrame(getContentRect(), display: true)
     panel.makeKeyAndOrderFront(nil)
     isOpen = true
     task = nil
 }
 
-fileprivate func cancelOrClosePanel(_ panel: NSPanel) {
+fileprivate func cancelOrClosePanel() {
     if let myTask = task {
         myTask.cancel()
         task = nil
@@ -111,19 +106,5 @@ fileprivate func cancelOrClosePanel(_ panel: NSPanel) {
 fileprivate var isOpen = false
 fileprivate var task: DispatchWorkItem?
 
-var prefWindow: NSWindow!
+var prefWindow: PreferencesWindow!
 
-func initPrefWindow() {
-    // Create the SwiftUI view that provides the window contents.
-    let contentView = ContentView()
-
-    // Create the window and set the content view.
-    prefWindow = NSWindow(
-        contentRect: NSRect(x: 0, y: 0, width: 480, height: 300),
-        styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
-        backing: .buffered, defer: false)
-    prefWindow.center()
-    prefWindow.setFrameAutosaveName("Instant Help")
-    prefWindow.contentView = NSHostingView(rootView: contentView)
-    prefWindow.makeKeyAndOrderFront(nil)
-}
