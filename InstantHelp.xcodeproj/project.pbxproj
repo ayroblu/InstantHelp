@@ -20,6 +20,10 @@
 		305234F126191F8F00C00932 /* HotKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305234F026191F8F00C00932 /* HotKeyView.swift */; };
 		305234F62619B46800C00932 /* PreferencesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305234F52619B46800C00932 /* PreferencesWindow.swift */; };
 		305234FF261A019300C00932 /* NativeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305234FE261A019200C00932 /* NativeButton.swift */; };
+		3052350B261A51BB00C00932 /* HelpPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3052350A261A51BB00C00932 /* HelpPanel.swift */; };
+		30523514261A558600C00932 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30523513261A558600C00932 /* Types.swift */; };
+		30523522261A58F400C00932 /* HotKeyMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30523521261A58F400C00932 /* HotKeyMethods.swift */; };
+		30523527261A5B6C00C00932 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30523526261A5B6C00C00932 /* Preferences.swift */; };
 		30795AAB261634440053B4EA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30795AAA261634440053B4EA /* AppDelegate.swift */; };
 		30795AAD261634440053B4EA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30795AAC261634440053B4EA /* ContentView.swift */; };
 		30795AAF2616344A0053B4EA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30795AAE2616344A0053B4EA /* Assets.xcassets */; };
@@ -27,8 +31,6 @@
 		30795AB52616344A0053B4EA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30795AB32616344A0053B4EA /* Main.storyboard */; };
 		30795AC12616344B0053B4EA /* InstantHelpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30795AC02616344B0053B4EA /* InstantHelpTests.swift */; };
 		30795ACC2616344B0053B4EA /* InstantHelpUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30795ACB2616344B0053B4EA /* InstantHelpUITests.swift */; };
-		30795ADE261635020053B4EA /* ContainerPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30795ADD261635020053B4EA /* ContainerPanel.swift */; };
-		30795AE6261635D90053B4EA /* MyContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30795AE5261635D90053B4EA /* MyContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +64,10 @@
 		305234F026191F8F00C00932 /* HotKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotKeyView.swift; sourceTree = "<group>"; };
 		305234F52619B46800C00932 /* PreferencesWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesWindow.swift; sourceTree = "<group>"; };
 		305234FE261A019200C00932 /* NativeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeButton.swift; sourceTree = "<group>"; };
+		3052350A261A51BB00C00932 /* HelpPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpPanel.swift; sourceTree = "<group>"; };
+		30523513261A558600C00932 /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
+		30523521261A58F400C00932 /* HotKeyMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotKeyMethods.swift; sourceTree = "<group>"; };
+		30523526261A5B6C00C00932 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		30795AA7261634440053B4EA /* InstantHelp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstantHelp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30795AAA261634440053B4EA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		30795AAC261634440053B4EA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -76,8 +82,6 @@
 		30795AC72616344B0053B4EA /* InstantHelpUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InstantHelpUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		30795ACB2616344B0053B4EA /* InstantHelpUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstantHelpUITests.swift; sourceTree = "<group>"; };
 		30795ACD2616344B0053B4EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		30795ADD261635020053B4EA /* ContainerPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerPanel.swift; sourceTree = "<group>"; };
-		30795AE5261635D90053B4EA /* MyContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +142,23 @@
 			path = Helper;
 			sourceTree = "<group>";
 		};
+		30523512261A556900C00932 /* Types */ = {
+			isa = PBXGroup;
+			children = (
+				30523513261A558600C00932 /* Types.swift */,
+			);
+			path = Types;
+			sourceTree = "<group>";
+		};
+		30523520261A58CA00C00932 /* Methods */ = {
+			isa = PBXGroup;
+			children = (
+				30523521261A58F400C00932 /* HotKeyMethods.swift */,
+				30523526261A5B6C00C00932 /* Preferences.swift */,
+			);
+			path = Methods;
+			sourceTree = "<group>";
+		};
 		30795A9E261634440053B4EA = {
 			isa = PBXGroup;
 			children = (
@@ -161,6 +182,8 @@
 		30795AA9261634440053B4EA /* InstantHelp */ = {
 			isa = PBXGroup;
 			children = (
+				30523520261A58CA00C00932 /* Methods */,
+				30523512261A556900C00932 /* Types */,
 				3052347A2617CE4A00C00932 /* HotKey */,
 				30795ADC2616345B0053B4EA /* UI */,
 				30795AAA261634440053B4EA /* AppDelegate.swift */,
@@ -205,9 +228,8 @@
 				305234FD261A013F00C00932 /* Helper */,
 				305234A32618D8FF00C00932 /* Preferences */,
 				30795AAC261634440053B4EA /* ContentView.swift */,
-				30795ADD261635020053B4EA /* ContainerPanel.swift */,
-				30795AE5261635D90053B4EA /* MyContentView.swift */,
 				305234932618C89900C00932 /* Menubar.swift */,
+				3052350A261A51BB00C00932 /* HelpPanel.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -345,12 +367,14 @@
 				305234942618C89900C00932 /* Menubar.swift in Sources */,
 				305234832617CF1300C00932 /* Key.swift in Sources */,
 				305234AA2618D92D00C00932 /* PreferencesView.swift in Sources */,
+				30523514261A558600C00932 /* Types.swift in Sources */,
+				30523522261A58F400C00932 /* HotKeyMethods.swift in Sources */,
+				3052350B261A51BB00C00932 /* HelpPanel.swift in Sources */,
 				305234842617CF1300C00932 /* KeyCombo+System.swift in Sources */,
 				30795AAD261634440053B4EA /* ContentView.swift in Sources */,
 				305234EC26191DE400C00932 /* HelpConfigView.swift in Sources */,
 				305234FF261A019300C00932 /* NativeButton.swift in Sources */,
-				30795ADE261635020053B4EA /* ContainerPanel.swift in Sources */,
-				30795AE6261635D90053B4EA /* MyContentView.swift in Sources */,
+				30523527261A5B6C00C00932 /* Preferences.swift in Sources */,
 				305234B52618DDAC00C00932 /* PreferencesToolbarView.swift in Sources */,
 				305234822617CF1300C00932 /* HotKeysController.swift in Sources */,
 				305234862617CF1300C00932 /* KeyCombo.swift in Sources */,

@@ -24,15 +24,15 @@ struct ImagePickerView: View {
     @Binding var helpConfig: HelpConfig
     
     var body: some View {
-        if FileManager.default.fileExists(atPath: helpConfig.imageUrl) {
+        if let imageUrl = helpConfig.imageUrl, FileManager.default.fileExists(atPath: imageUrl) {
             Button(action: {
-                openImagePicker(initialUrlPath: URL(fileURLWithPath: helpConfig.imageUrl))
+                openImagePicker(initialUrlPath: URL(fileURLWithPath: imageUrl))
             }) {
-                Image(nsImage: getImage(filePath: helpConfig.imageUrl)!)
+                Image(nsImage: getImage(filePath: imageUrl)!)
                     .resizable()
 //                    .renderingMode(.original)
                     .scaledToFit()
-                    .frame(width: 32.0, height: 32.0)
+                    .frame(width: 120, height: 120)
             }
             .buttonStyle(PlainButtonStyle())
         } else {

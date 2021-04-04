@@ -16,7 +16,7 @@ class PreferencesWindow: NSWindow {
         titlebarAccessory.view = NSHostingView(rootView: preferencesToolbarView)
         
         prefWindow = PreferencesWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 480, height: 300),
+            contentRect: NSRect(x: 0, y: 0, width: 480, height: 500),
             styleMask: [.titled, .closable, .miniaturizable, .fullSizeContentView],
             backing: .buffered, defer: false)
         prefWindow.setFrameAutosaveName("Instant Help Preferences")
@@ -28,13 +28,12 @@ class PreferencesWindow: NSWindow {
         prefWindow.title = "Preferences"
         prefWindow.center()
         prefWindow.isReleasedWhenClosed = false
-        prefWindow.makeKeyAndOrderFront(nil)
-        prefWindow.orderFrontRegardless()
+        AppDelegate.showPrefWindow()
     }
     
-    private let publisher = PassthroughSubject<NSEvent, Never>() // private
+    private let publisher = PassthroughSubject<NSEvent, Never>()
 
-    var keyEventPublisher: AnyPublisher<NSEvent, Never> { // public
+    var keyEventPublisher: AnyPublisher<NSEvent, Never> {
         publisher.eraseToAnyPublisher()
     }
 
@@ -43,17 +42,3 @@ class PreferencesWindow: NSWindow {
     }
 }
 
-// Environment key to hold even publisher
-struct WindowEventPublisherKey: EnvironmentKey {
-    static let defaultValue: AnyPublisher<NSEvent, Never> =
-        Just(NSEvent()).eraseToAnyPublisher() // just default stub
-}
-
-
-// Environment value for keyPublisher access
-extension EnvironmentValues {
-    var keyPublisher: AnyPublisher<NSEvent, Never> {
-        get { self[WindowEventPublisherKey.self] }
-        set { self[WindowEventPublisherKey.self] = newValue }
-    }
-}

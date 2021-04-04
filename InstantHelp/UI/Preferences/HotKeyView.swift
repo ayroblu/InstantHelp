@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HotKeyView: View {
-    @Binding var hotkey: KeyCombo
+    @Binding var hotkey: KeyCombo?
     @State private var isRecording = false
     @Environment(\.keyPublisher) var keyPublisher
     
@@ -16,18 +16,19 @@ struct HotKeyView: View {
         HStack {
             Text("HotKey:")
             if isRecording {
-                Button("press a shortcut") {
-                    print("pressed")
-                }
+                Button("Press a shortcut...") {}
                 .onReceive(keyPublisher) { event in
                     if let key = Key(carbonKeyCode: UInt32(event.keyCode)) {
                         hotkey = KeyCombo(key: key, modifiers: event.modifierFlags)
                         isRecording = false
                     }
                 }
-            } else {
+            } else if let hotkey = hotkey {
                 Button(hotkey.description) {
-                    print("pressed")
+                    isRecording = true
+                }
+            } else {
+                Button("Record a shortcut") {
                     isRecording = true
                 }
             }
