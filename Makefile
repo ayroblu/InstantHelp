@@ -31,6 +31,9 @@ install: dist/${AppName}.app
 > cp -a dist/${AppName}.app /Applications/${AppName}.app
 .PHONY: install
 
+dmg: dist/${AppName}.dmg
+.PHONY: dmg
+
 ## ------------------------- helper
 
 dist:
@@ -46,4 +49,14 @@ dist/${AppName}.app: dist artifacts/${AppName}.xcarchive ExportOptions.plist
 > xcodebuild -exportArchive -archivePath './artifacts/${AppName}.xcarchive' -exportOptionsPlist ExportOptions.plist -exportPath dist/
 > touch $@
 
-
+dist/${AppName}.dmg: dist/${AppName}.app
+> create-dmg \
+>   --volname "InstantHelp Installer" \
+>   --window-pos 200 120 \
+>   --window-size 500 400 \
+>   --icon-size 100 \
+>   --icon "${AppName}.app" 100 100 \
+>   --hide-extension "${AppName}.app" \
+>   --app-drop-link 300 100 \
+>   "$@" \
+>   "dist/"

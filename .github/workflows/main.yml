@@ -16,14 +16,14 @@ jobs:
 
     - name: Install make
       run: |
-        brew install make
+        brew install make create-dmg
         echo "/usr/local/opt/make/libexec/gnubin" >> $GITHUB_PATH
 
     - uses: actions/checkout@v2
 
-    - name: Archive
+    - name: Build and make dmg
       run: |
-        make release
+        make dmg
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v1.0.0
@@ -39,6 +39,7 @@ jobs:
       with:
         name: InstantHelp
         path: ./dist
+
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
@@ -46,4 +47,4 @@ jobs:
         prerelease: true
         title: "Development Build"
         files: |
-          dist/InstantHelp.app
+          dist/InstantHelp.dmg
