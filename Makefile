@@ -23,16 +23,19 @@ build:
 > xcodebuild -scheme ${AppName} -target ${AppName} -configuration Debug
 .PHONY: build
 
-release: dist dist/${AppName}.xcarchive dist/${AppName}.app
+release: dist/${AppName}.app
 .PHONY: release
 
 dist:
 > mkdir -p dist
 
-dist/${AppName}.xcarchive:
-> xcodebuild archive -archivePath 'dist/${AppName}.xcarchive' -scheme ${AppName} -target ${AppName} -configuration Release
+artifacts:
+> mkdir -p artifacts
+
+artifacts/${AppName}.xcarchive: artifacts
+> xcodebuild archive -archivePath 'artifacts/${AppName}.xcarchive' -scheme ${AppName} -target ${AppName} -configuration Release
 .PHONY: archive
 
-dist/${AppName}.app:
-> xcodebuild -exportArchive -archivePath './dist/${AppName}.xcarchive' -exportOptionsPlist ExportOptions.plist -exportPath dist/
+dist/${AppName}.app: dist artifacts/${AppName}.xcarchive ExportOptions.plist
+> xcodebuild -exportArchive -archivePath './artifacts/${AppName}.xcarchive' -exportOptionsPlist ExportOptions.plist -exportPath artifacts/
 .PHONY: exportArchive
