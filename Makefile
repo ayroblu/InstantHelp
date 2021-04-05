@@ -26,6 +26,13 @@ build:
 release: dist/${AppName}.app
 .PHONY: release
 
+install: dist/${AppName}.app
+> [ -e "/Applications/${AppName}.app" ] && rmtrash /Applications/${AppName}.app
+> cp -a dist/${AppName}.app /Applications/${AppName}.app
+.PHONY: install
+
+## ------------------------- helper
+
 dist:
 > mkdir -p dist
 
@@ -33,9 +40,10 @@ artifacts:
 > mkdir -p artifacts
 
 artifacts/${AppName}.xcarchive: artifacts
-> xcodebuild archive -archivePath 'artifacts/${AppName}.xcarchive' -scheme ${AppName} -target ${AppName} -configuration Release
-.PHONY: archive
+> xcodebuild archive -archivePath $@ -scheme ${AppName} -target ${AppName} -configuration Release
 
 dist/${AppName}.app: dist artifacts/${AppName}.xcarchive ExportOptions.plist
-> xcodebuild -exportArchive -archivePath './artifacts/${AppName}.xcarchive' -exportOptionsPlist ExportOptions.plist -exportPath artifacts/
-.PHONY: exportArchive
+> xcodebuild -exportArchive -archivePath './artifacts/${AppName}.xcarchive' -exportOptionsPlist ExportOptions.plist -exportPath dist/
+> touch $@
+
+
