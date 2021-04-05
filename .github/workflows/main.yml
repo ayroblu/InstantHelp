@@ -15,7 +15,9 @@ jobs:
       run: "sudo xcode-select -s /Applications/Xcode_11.4.app"
 
     - name: Install make
-      run: brew install make
+      run: |
+        brew install make
+        echo "/usr/local/opt/make/libexec/gnubin" >> $GITHUB_PATH
 
     - uses: actions/checkout@v2
 
