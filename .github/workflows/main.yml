@@ -30,3 +30,19 @@ jobs:
       with:
         name: InstantHelp
         path: ./dist
+
+  pre-release:
+    needs: build
+    runs-on: [ macos-latest ]
+    steps:
+    - uses: actions/download-artifact@v2
+      with:
+        name: InstantHelp
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
+        prerelease: true
+        title: "Development Build"
+        files: |
+          dist/InstantApp.app
