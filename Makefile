@@ -23,16 +23,16 @@ build:
 > xcodebuild -scheme ${AppName} -target ${AppName} -configuration Debug
 .PHONY: build
 
-release: dist archive exportArchive
+release: dist dist/${AppName}.xcarchive dist/${AppName}.app
 .PHONY: release
 
 dist:
 > mkdir -p dist
 
-archive: dist/${AppName}.xcarchive
+dist/${AppName}.xcarchive:
 > xcodebuild archive -archivePath 'dist/${AppName}.xcarchive' -scheme ${AppName} -target ${AppName} -configuration Release
 .PHONY: archive
 
-exportArchive: dist/InstantHelp.app
+dist/${AppName}.app:
 > xcodebuild -exportArchive -archivePath './dist/${AppName}.xcarchive' -exportOptionsPlist ExportOptions.plist -exportPath dist/
 .PHONY: exportArchive
