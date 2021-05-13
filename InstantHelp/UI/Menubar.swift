@@ -16,8 +16,8 @@ class Menubar {
         statusItem.menu!.title = "Menubar"
         statusItem.menu!.addItem(
             withTitle: NSLocalizedString("Preferences…", comment: "Menubar option"),
-            action: #selector(AppDelegate.showPrefWindow),
-            keyEquivalent: ",")
+            action: #selector(prefWindow.show),
+            keyEquivalent: ",").target = prefWindow
         statusItem.menu!.addItem(NSMenuItem.separator())
         statusItem.menu!.addItem(
             withTitle: String(format: NSLocalizedString("Quit", comment: "Menubar option")),

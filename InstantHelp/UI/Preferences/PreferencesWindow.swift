@@ -28,7 +28,6 @@ class PreferencesWindow: NSWindow {
         prefWindow.title = "Preferences"
         prefWindow.center()
         prefWindow.isReleasedWhenClosed = false
-        AppDelegate.showPrefWindow()
     }
     
     private let publisher = PassthroughSubject<NSEvent, Never>()
@@ -39,6 +38,11 @@ class PreferencesWindow: NSWindow {
 
     override func keyDown(with event: NSEvent) {
         publisher.send(event)
+    }
+    
+    @objc func show() {
+        makeKeyAndOrderFront(nil)
+        orderFrontRegardless()
     }
 }
 

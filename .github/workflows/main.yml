@@ -18,7 +18,7 @@ jobs:
 
     - name: Install make
       run: |
-        brew install make create-dmg
+        brew install make create-dmg ripgrep
         echo "/usr/local/opt/make/libexec/gnubin" >> $GITHUB_PATH
 
     - uses: actions/checkout@v2

@@ -13,19 +13,15 @@ import Carbon.HIToolbox.Events
 class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         askPermission()
+        PreferencesWindow.setup()
         Menubar.initialize()
         initMainPanel()
         setHotKeyConfigs(helpConfigs: Preferences.HelpConfigs.value)
-        PreferencesWindow.setup()
+        prefWindow.show()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
-    }
-    
-    @objc static func showPrefWindow() {
-        prefWindow.makeKeyAndOrderFront(nil)
-        prefWindow.orderFrontRegardless()
     }
 }
 

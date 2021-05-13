@@ -5,7 +5,7 @@
 ## Initial setup
 SHELL := bash
 .ONESHELL:
-.SHELLFLAGS := -eu -o pipefail -c
+.SHELLFLAGS := -eux -o pipefail -c
 .DELETE_ON_ERROR:
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
@@ -42,7 +42,7 @@ dist:
 artifacts:
 > mkdir -p artifacts
 
-artifacts/${AppName}.xcarchive: artifacts
+artifacts/${AppName}.xcarchive: artifacts $(shell rg --files ${AppName} | sed 's: :\\ :g')
 > xcodebuild archive -archivePath $@ -scheme ${AppName} -target ${AppName} -configuration Release
 
 dist/${AppName}.app: dist artifacts/${AppName}.xcarchive ExportOptions.plist
